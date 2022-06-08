@@ -1,9 +1,8 @@
-export default class CreateBoard {
+class CreateBoard {
 
     get createNewBoardButton(){
         return cy.get('li[title="Add new Board"]');
     }
-
     get inputBoardNameField(){
         return cy.get('input[name="name"]');
     }
@@ -22,7 +21,6 @@ export default class CreateBoard {
     getButton(name){
         return cy.get('button').contains(name);
     }
-
     createNewBoard(name){
         this.createNewBoardButton.eq(0).click();
         this.inputBoardNameField.type(name);
@@ -34,7 +32,5 @@ export default class CreateBoard {
         this.getButton('Next').click();
         this.getButton('Finish').click();
     }
-
 }
-
 export const createBoard = new CreateBoard();

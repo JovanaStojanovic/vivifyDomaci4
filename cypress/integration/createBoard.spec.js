@@ -1,17 +1,21 @@
 ///<reference types="Cypress" />
 
-import {loginPage} from './../page_objects/loginPage';
-import {createOrganization} from './../page_objects/createOrganization';
-import {createBoard} from './../page_objects/createBoard';
+import user from './../fixtures/data.json'
+import {loginPage} from '../pageObjects/loginPage';
+import {createBoard} from '../pageObjects/createBoard';
 
 const faker = require('faker');
 
 describe('create board tests', ()=> {
     beforeEach('log into the app', () => {
-        
         cy.visit("/login");
-        loginPage.login("rachel.green@mailinator.com", "kisobran.22");
+        loginPage.login(user.email, user.password);
 
+        cy.intercept(
+            "POST",
+            "https://cypress-api.vivifyscrum-stage.com/api/v2/boards",
+            ()=>{}
+        ).as("createBoard");
     });
     
     let randomBoardTitle=faker.name.title();
@@ -27,6 +31,9 @@ describe('create board tests', ()=> {
 
     it("create board without logo", ()=>{
         createBoard.createNewBoard(randomBoardTitle);
+        cy.wait('@createBoard').then((interception)=> {
+            expect(interception.response.statusCode).eq(201);
+        })
         cy.url().should('contain', '/boards');
         createBoard.boardName.should('contain', randomBoardTitle);
     });

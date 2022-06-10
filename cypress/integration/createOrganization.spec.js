@@ -2,12 +2,12 @@
 
 import {loginPage} from './../pageObjects/loginPage';
 import {createOrganization} from './../pageObjects/createOrganization';
-const faker = require('faker');
 import user from './../fixtures/data.json'
 
-
 describe('create organization tests', ()=> {
+
     beforeEach('log into the app', () => {
+
         cy.visit("/login");
         loginPage.login(user.email, user.password);
 
@@ -16,23 +16,27 @@ describe('create organization tests', ()=> {
             "https://cypress-api.vivifyscrum-stage.com/api/v2/organizations",
             ()=>{}
         ).as("createOrganization");
+
     });
-    
-    let randomOrganizationTitle=faker.name.title();
-    
+        
     it("user able to see create organization option, next button disabled when title empty",()=>{
+
         cy.url().should('contain', '/my-organizations');
         createOrganization.pageTitle.should('have.text', 'My Organizations');
         createOrganization.addOrganizationButton.click();
         createOrganization.dialogTitle.should('have.text', ' New Organization');
         createOrganization.getButton('Next').should('be.disabled');
+
     });
 
     it("create organization without logo", ()=>{
-        createOrganization.createOrganizationNoLogo(randomOrganizationTitle);
+
+        createOrganization.createOrganizationNoLogo("New Organization Title");
         cy.wait('@createOrganization').then((interception)=> {
             expect(interception.response.statusCode).eq(201);
         })
         cy.url().should('contain','/boards');
+
     });
+
 });

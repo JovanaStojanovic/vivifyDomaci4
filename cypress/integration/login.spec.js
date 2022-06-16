@@ -30,7 +30,7 @@ describe('login tests', ()=> {
 
     it("login with correct email, no password", ()=>{
 
-        loginPage.loginNoPassword(user.email);
+        cy.login({email:'rachel.green@mailinator.com', password: ' '});
         cy.url().should('contains', '/login');
         loginPage.errorMessage.should('be.visible').and('have.text', 'The password field is required');
 
@@ -38,7 +38,7 @@ describe('login tests', ()=> {
 
     it("login with correct email, but wrong password", ()=>{
 
-        loginPage.login(user.email, "randompassword");
+        cy.login({email: 'rachel.green@mailinator.com' , password: 'password'});
         cy.wait('@loginUser').then((interception)=> {
             expect(interception.response.statusCode).eq(401);
         })
@@ -49,7 +49,7 @@ describe('login tests', ()=> {
 
     it("login with not registered email", ()=>{
 
-        loginPage.login("randomemail@email.com", "randompassword");
+        cy.login({email: 'randomemail@email.com' , password: 'password'});
         cy.wait('@loginUser').then((interception)=> {
             expect(interception.response.statusCode).eq(401);
         })
@@ -60,18 +60,17 @@ describe('login tests', ()=> {
 
     it("login with correct credentials", ()=>{
 
-        loginPage.login(user.email, user.password);
+        cy.login({email: user.email , password: user.password});
         cy.wait('@loginUser').then((interception)=> {
             expect(interception.response.statusCode).eq(200);
         })
-        cy.wait(3000);
         cy.url().should('contain', '/my-organizations');
     
     });
 
     it("logout", () => {
 
-        loginPage.login(user.email, user.password);
+        cy.login({email: user.email , password: user.password});
         cy.wait('@loginUser').then((interception)=> {
             expect(interception.response.statusCode).eq(200);
         })

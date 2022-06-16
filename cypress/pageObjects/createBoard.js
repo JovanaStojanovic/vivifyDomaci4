@@ -2,8 +2,7 @@ class CreateBoard {
 
     get createNewBoardButton(){
 
-        return cy.get('li[title="Add new Board"]');
-    }
+       return cy.get('li[title="Add new Board"]');    }
 
     get inputBoardNameField(){
 

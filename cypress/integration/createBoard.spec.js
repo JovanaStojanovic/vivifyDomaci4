@@ -32,7 +32,7 @@ describe('create board tests', ()=> {
 
     it("create board without logo", ()=>{
 
-        createBoard.createNewBoard("New Board Title");
+        cy.createBoard("New Board Title");
         cy.wait('@createBoard').then((interception)=> {
             expect(interception.response.statusCode).eq(201);
         })

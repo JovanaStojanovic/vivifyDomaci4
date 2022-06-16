@@ -1,26 +1,25 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add('login', (user) => {
+    cy.get('input[type="email"]').type(user.email);
+    cy.get('input[type="password"]').type(user.password);
+    cy.get('button[type="submit"]').click();
+})
+
+
+Cypress.Commands.add('createOrganization', (name) => {
+    cy.get('div[class="vs-c-my-organization__content"]').last().click();
+    cy.get('input[type="text"]').type(name);
+    cy.get('button[type="button"]').last().click();
+    cy.get('button[type="button"]').last().click();
+})
+
+Cypress.Commands.add('createBoard', (name) => {
+    cy.get('li[title="Add new Board"]').eq(0).click();
+    cy.get('input[name="name"]').type(name);
+    cy.get('button[type="button"]').last().click();
+    cy.get('span[name="type_scrum"]').click();
+    cy.get('button[type="button"]').last().click();
+    cy.get('button[type="button"]').last().click();
+    cy.get('button[type="button"]').last().click();
+    cy.get('button[type="button"]').last().click();
+})
 

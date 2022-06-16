@@ -9,7 +9,7 @@ describe('create organization tests', ()=> {
     beforeEach('log into the app', () => {
 
         cy.visit("/login");
-        loginPage.login(user.email, user.password);
+        cy.login({email: user.email, password: user.password});
 
         cy.intercept(
             "POST",
@@ -31,7 +31,7 @@ describe('create organization tests', ()=> {
 
     it("create organization without logo", ()=>{
 
-        createOrganization.createOrganizationNoLogo("New Organization Title");
+        cy.createOrganization("New Organization Title");
         cy.wait('@createOrganization').then((interception)=> {
             expect(interception.response.statusCode).eq(201);
         })

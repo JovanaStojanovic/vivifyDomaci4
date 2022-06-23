@@ -8,6 +8,8 @@ describe('create organization tests', ()=> {
 
     beforeEach('log into the app', () => {
 
+        let url = Cypress.config().baseUrl;
+        cy.visit(url);
         cy.visit("/login");
         loginPage.login(user.email, user.password);
 

@@ -7,6 +7,8 @@ describe('login tests', ()=> {
 
     beforeEach('visit login page', () => {
 
+        let url = Cypress.config().baseUrl;
+        cy.visit(url);
         cy.visit("/login");
         loginPage.getInputField('email').should('be.visible');
         loginPage.title.should('have.text', 'Log in with your existing account');
